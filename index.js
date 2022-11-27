@@ -107,6 +107,22 @@ async function run() {
             res.send(result);
         });
 
+        //get and post new products
+
+        // app.get('/products', async (req, res) => {
+        //     const query = {};
+        //     const result = await productsCollection.find(query).toArray();
+        //     res.send(result);
+        // });
+
+        //change this
+        app.get('/products/:email', async (req, res) => {
+            const email = req.params.email;
+            const query = { email };
+            const result = await productsCollection.find(query).toArray();
+            res.send(result);
+        });
+
         app.post('/products', async (req, res) => {
             const product = req.body;
             const result = await productsCollection.insertOne(product);
