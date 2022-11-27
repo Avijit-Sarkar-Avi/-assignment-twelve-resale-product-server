@@ -76,6 +76,23 @@ async function run() {
             res.send({ isAdmin: user?.category === 'admin' });
         });
 
+        //find seller
+        app.get('/users/seller/:email', async (req, res) => {
+            const email = req.params.email;
+            const query = { email }
+            const user = await usersCollection.findOne(query);
+            res.send({ isSeller: user?.category === 'saler' });
+        });
+
+        //find buyer
+        app.get('/users/buyer/:email', async (req, res) => {
+            const email = req.params.email;
+            const query = { email }
+            const user = await usersCollection.findOne(query);
+            res.send({ isBuyer: user?.category === 'buyer' });
+        });
+
+
         app.post('/users', async (req, res) => {
             const user = req.body;
             const result = await usersCollection.insertOne(user);
