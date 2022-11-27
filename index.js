@@ -23,6 +23,8 @@ async function run() {
 
         const usersCollection = client.db('assignmentTwelve').collection('users')
 
+        const productsCollection = client.db('assignmentTwelve').collection('products')
+
         app.get('/cardData', async (req, res) => {
             const query = {};
             const cards = await cardDataCollection.find(query).toArray();
@@ -34,6 +36,12 @@ async function run() {
             const query = { _id: ObjectId(id) };
             const card = await cardDataCollection.findOne(query);
             res.send(card);
+        });
+
+        app.get('/category', async (req, res) => {
+            const query = {}
+            const result = await cardDataCollection.find(query).project({ name: 1 }).toArray();
+            res.send(result);
         });
 
         app.get('/jwt', async (req, res) => {
@@ -96,6 +104,12 @@ async function run() {
         app.post('/users', async (req, res) => {
             const user = req.body;
             const result = await usersCollection.insertOne(user);
+            res.send(result);
+        });
+
+        app.post('/products', async (req, res) => {
+            const product = req.body;
+            const result = await productsCollection.insertOne(product);
             res.send(result);
         })
 
