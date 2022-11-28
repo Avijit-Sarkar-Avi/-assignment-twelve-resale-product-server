@@ -109,19 +109,48 @@ async function run() {
 
         //get and post new products
 
-        // app.get('/products', async (req, res) => {
-        //     const query = {};
-        //     const result = await productsCollection.find(query).toArray();
-        //     res.send(result);
-        // });
+        app.get('/products', async (req, res) => {
+            const query = {};
+            const products = await productsCollection.find(query).toArray();
+            res.send(products);
+        });
 
         //change this
-        app.get('/products/:email', async (req, res) => {
-            const email = req.params.email;
-            const query = { email };
-            const result = await productsCollection.find(query).toArray();
+
+        // app.get('/products', async (req, res) => {
+        //     const email = req.params.email;
+        //     const query = { email };
+        //     const products = await productsCollection.find(query).toArray();
+        //     res.send(products);
+        // });
+
+        // app.get('/products', async (req, res) => {
+        //     let query = {};
+        //     if (req.query.email) {
+        //         query = {
+        //             email: req.query.email
+        //         }
+        //     }
+        //     const cursor = productsCollection.find(query);
+        //     const products = await cursor.toArray();
+        //     res.send(products);
+        // });
+
+        //advertise
+        app.put('/products/:id', async (req, res) => {
+            const id = req.params.id;
+            const filter = { _id: ObjectId(id) }
+            const options = { upsert: true };
+            const updatedDoc = {
+                $set: {
+                    isAdvertise: 'advertise'
+                }
+            }
+            const result = await productsCollection.updateOne(filter, updatedDoc, options);
             res.send(result);
         });
+
+
 
         app.post('/products', async (req, res) => {
             const product = req.body;
