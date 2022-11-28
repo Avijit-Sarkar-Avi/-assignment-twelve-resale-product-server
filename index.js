@@ -92,6 +92,16 @@ async function run() {
             res.send({ isSeller: user?.category === 'saler' });
         });
 
+        //delete seller
+        app.delete('/users/seller/:email', async (req, res) => {
+            // const id = req.params.id;
+            // const query = { _id: ObjectId(id) };
+            const email = req.params.email;
+            const query = { email }
+            const result = await usersCollection.deleteOne(query);
+            res.send(result);
+        })
+
         //find buyer
         app.get('/users/buyer/:email', async (req, res) => {
             const email = req.params.email;
@@ -100,12 +110,24 @@ async function run() {
             res.send({ isBuyer: user?.category === 'buyer' });
         });
 
+        //delete buyer
+        app.delete('/users/buyer/:email', async (req, res) => {
+            // const id = req.params.id;
+            // const query = { _id: ObjectId(id) };
+            const email = req.params.email;
+            const query = { email }
+            const result = await usersCollection.deleteOne(query);
+            res.send(result);
+        })
+
 
         app.post('/users', async (req, res) => {
             const user = req.body;
             const result = await usersCollection.insertOne(user);
             res.send(result);
         });
+
+
 
         //get and post new products
 
