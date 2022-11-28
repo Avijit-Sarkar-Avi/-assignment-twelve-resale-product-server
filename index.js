@@ -150,6 +150,15 @@ async function run() {
             res.send(result);
         });
 
+        //delete item
+
+        app.delete('/products/:id', async (req, res) => {
+            const id = req.params.id;
+            const query = { _id: ObjectId(id) };
+            const result = await productsCollection.deleteOne(query);
+            res.send(result);
+        })
+
 
 
         app.post('/products', async (req, res) => {
